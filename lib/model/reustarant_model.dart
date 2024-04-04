@@ -1,4 +1,33 @@
+import 'dart:convert';
 
+Restaurants restaurantsFromJson(String str) =>
+    Restaurants.fromJson(json.decode(str));
+
+String restaurantsToJson(Restaurants data) => json.encode(data.toJson());
+
+class Restaurants {
+  List<Restaurant> restaurants;
+
+  Restaurants({
+    required this.restaurants,
+  });
+
+  Restaurants copyWith({
+    List<Restaurant>? restaurants,
+  }) =>
+      Restaurants(
+        restaurants: restaurants ?? this.restaurants,
+      );
+
+  factory Restaurants.fromJson(Map<String, dynamic> json) => Restaurants(
+    restaurants: List<Restaurant>.from(
+        json["restaurants"].map((x) => Restaurant.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "restaurants": List<dynamic>.from(restaurants.map((x) => x.toJson())),
+  };
+}
 
 class Restaurant {
   int id;

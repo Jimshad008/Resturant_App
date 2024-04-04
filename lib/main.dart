@@ -37,7 +37,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
 getUser() async {
   final SharedPreferences local=await SharedPreferences.getInstance();
-  final email=local.get("email");
+  final email=local.get("rememberMe");
   if(email!=null){
     Navigator.pushAndRemoveUntil(context, CupertinoPageRoute(builder: (context) => HomePage(),), (route) => false);
 

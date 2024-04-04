@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:resturant_app/core/constant/global_constants.dart';
 class ExpandText extends StatefulWidget {
  final  String word;
   const ExpandText({super.key,required this.word});
@@ -24,7 +23,7 @@ class _ExpandTextState extends State<ExpandText> {
             Text(
              widget. word,
 
-              maxLines: isExpanded ? 20 : 3, // Initially show 3 lines
+              maxLines: isExpanded ? 100 : 3, // Initially show 3 lines
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: width*0.04),
             ),

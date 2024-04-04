@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:resturant_app/core/util.dart';
 import 'package:resturant_app/feature/login/controller/loginController.dart';
+import 'package:resturant_app/feature/login/screen/forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!value.contains(RegExp(r'[!@#$%^&*()<>?/|}{~:]'))) {
       return "Password must contain at least one special character";
     }
-    return null; // Password is valid.
+    return null;
   }
   String? validateEmail(String? value) {
     const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
@@ -52,9 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ? 'Enter a valid email address'
         : null;
   }
-  getLogin(WidgetRef ref){
+  getLogin(WidgetRef ref,bool rememberMe){
     if(userName.text.trim().isNotEmpty&&passWord.text.trim().isNotEmpty){
-      ref.read(loginControllerProvider).loginUser(email: userName.text.trim(), password: passWord.text.trim(), context: context);
+      ref.read(loginControllerProvider).loginUser(email: userName.text.trim(), password: passWord.text.trim(), context: context, rememberMe:rememberMe );
 
     }
     else{
@@ -272,16 +274,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text("Remember me",style: TextStyle(fontSize: width*0.03),)
                       ],
                     ),
-                    Text("Forgot Password?",style: TextStyle(fontSize: width*0.03,fontWeight: FontWeight.bold,color: Colors.blue.shade900))
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, CupertinoPageRoute(builder: (context) => const ForgotPassword(),));
+                      },
+                        child: Text("Forgot Password?",style: TextStyle(fontSize: width*0.03,fontWeight: FontWeight.bold,color: Colors.blue.shade900)))
                   ],
                 ),
                 SizedBox(height: height*0.1,),
                 Consumer(
                   builder: (context,ref,child) {
+                    final remember=ref.watch(rememberMeProvider);
                     return GestureDetector(
                       onTap: () {
     if (_formKey.currentState!.validate()) {
-      getLogin(ref);
+      getLogin(ref,remember);
     }
                       },
                       child: Container(
